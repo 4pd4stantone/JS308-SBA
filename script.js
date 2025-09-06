@@ -99,3 +99,28 @@ function getLearnerData(course, ag, submissions) {
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
 console.log(result);
+
+
+// Part 1. Group LearnerSubmissions by learner_Id
+
+let learnerResults = []
+let repeatedLearnerID = []
+
+for (let i= 0; i < LearnerSubmissions.length; i++) {
+    const currentLearnerID = LearnerSubmissions[i].learner_id;
+    let allSubmissionsByLearner = [];
+    if (repeatedLearnerID.indexOf(currentLearnerID) !== -1) {
+        continue;
+    } else {
+    repeatedLearnerID.push(currentLearnerID)
+    }
+    for (let j = 0; j < LearnerSubmissions.length; j++) {
+        if (LearnerSubmissions[i].learner_id === LearnerSubmissions[j].learner_id) {
+            allSubmissionsByLearner.push(LearnerSubmissions[j]);
+        } 
+      
+    }
+    console.log("id:", currentLearnerID, "Number of Learner Submissions:", allSubmissionsByLearner.length)
+}
+
+

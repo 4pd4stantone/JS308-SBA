@@ -103,7 +103,6 @@ console.log(result);
 
 // Part 1. Group LearnerSubmissions by learner_Id
 
-let learnerResults = []
 let repeatedLearnerID = []
 
 for (let i= 0; i < LearnerSubmissions.length; i++) {
@@ -121,6 +120,7 @@ for (let i= 0; i < LearnerSubmissions.length; i++) {
       
     }
     console.log("id:", currentLearnerID, "Number of Learner Submissions:", allSubmissionsByLearner.length)
+    console.log("id:", currentLearnerID, "Learner Submissions", allSubmissionsByLearner)
 }
 
 

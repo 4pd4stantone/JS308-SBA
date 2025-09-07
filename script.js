@@ -31,6 +31,8 @@ const AssignmentGroup = {
     }
   ]
 };
+// console.log(AssignmentGroup.assignments[0].due_at)
+// console.log(new Date())
 
 // The provided learner submission data.
 const LearnerSubmissions = [
@@ -76,6 +78,8 @@ const LearnerSubmissions = [
   }
 ];
 
+// console.log(new Date(LearnerSubmissions[4].submission.submitted_at))
+
 function getLearnerData(course, ag, submissions) {
   // here, we would process this data to achieve the desired result.
   const result = [
@@ -101,26 +105,55 @@ const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 console.log(result);
 
 
-// Part 1. Group LearnerSubmissions by learner_Id
+// Step 1. Group LearnerSubmissions by learner_Id
 
-let repeatedLearnerID = []
+let uniqueLearnerID = []
 
+// Step 2. filter out assignments that are past due date or not due yet
+let today = new Date()
+// console.log(today)
+
+//This is loop #1
 for (let i= 0; i < LearnerSubmissions.length; i++) {
-    const currentLearnerID = LearnerSubmissions[i].learner_id;
+    let currentLearnerID = LearnerSubmissions[i].learner_id;
     let allSubmissionsByLearner = [];
-    if (repeatedLearnerID.indexOf(currentLearnerID) !== -1) {
-        continue;
+    //this is loop #1 if statement. 
+    if (uniqueLearnerID.indexOf(currentLearnerID) == -1) {
+        uniqueLearnerID.push(currentLearnerID);
     } else {
-    repeatedLearnerID.push(currentLearnerID)
+        continue;
     }
+    //This is loop #2
     for (let j = 0; j < LearnerSubmissions.length; j++) {
-        if (LearnerSubmissions[i].learner_id === LearnerSubmissions[j].learner_id) {
-            allSubmissionsByLearner.push(LearnerSubmissions[j]);
-        } 
+        //This is loop #2 if statement
+        let newLearnerID = LearnerSubmissions[j].learner_id
+        if (currentLearnerID === newLearnerID) {
+            // If Learner ID i === Learner ID j => push Object into the array allSubmissionsByLearner
+             //this is loop #3
+            for (let k = 0; k < AssignmentGroup.assignments.length; k++) {
+                let assignmentIDJ = LearnerSubmissions[j].assignment_id;
+                let assignmentIDK = AssignmentGroup.assignments[k].id;
+                // Step 2. filter out assignments that are past due date or not due yet
+                let jDate = new Date(LearnerSubmissions[j].submission.submitted_at)
+                let kDate = new Date(AssignmentGroup.assignments[k].due_at)
+                if (assignmentIDJ === assignmentIDK && kDate <= today) {
+                    allSubmissionsByLearner.push(LearnerSubmissions[j]);
+                } else {
+                    continue;
+                }
+            }
+        } else {
+            continue;
+        }
       
     }
-    console.log("id:", currentLearnerID, "Number of Learner Submissions:", allSubmissionsByLearner.length)
+    // console.log("id:", currentLearnerID, "Number of Learner Submissions:", allSubmissionsByLearner.length)
     console.log("id:", currentLearnerID, "Learner Submissions", allSubmissionsByLearner)
 }
+
+
+
+
+
 
 

@@ -105,51 +105,34 @@ const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 console.log(result);
 
 
-// Step 1. Group LearnerSubmissions by learner_Id
+//part1 Unique ID for learner submissions
 
-let uniqueLearnerID = []
+const finalResult = []
 
-// Step 2. filter out assignments that are past due date or not due yet
-let today = new Date()
-// console.log(today)
-
-//This is loop #1
-for (let i= 0; i < LearnerSubmissions.length; i++) {
-    let currentLearnerID = LearnerSubmissions[i].learner_id;
-    let allSubmissionsByLearner = [];
-    //this is loop #1 if statement. 
-    if (uniqueLearnerID.indexOf(currentLearnerID) == -1) {
-        uniqueLearnerID.push(currentLearnerID);
-    } else {
-        continue;
-    }
-    //This is loop #2
-    for (let j = 0; j < LearnerSubmissions.length; j++) {
-        //This is loop #2 if statement
-        let newLearnerID = LearnerSubmissions[j].learner_id
-        if (currentLearnerID === newLearnerID) {
-            // If Learner ID i === Learner ID j => push Object into the array allSubmissionsByLearner
-             //this is loop #3
-            for (let k = 0; k < AssignmentGroup.assignments.length; k++) {
-                let assignmentIDJ = LearnerSubmissions[j].assignment_id;
-                let assignmentIDK = AssignmentGroup.assignments[k].id;
-                // Step 2. filter out assignments that are past due date or not due yet
-                let jDate = new Date(LearnerSubmissions[j].submission.submitted_at)
-                let kDate = new Date(AssignmentGroup.assignments[k].due_at)
-                if (assignmentIDJ === assignmentIDK && kDate <= today) {
-                    allSubmissionsByLearner.push(LearnerSubmissions[j]);
-                } else {
-                    continue;
-                }
-            }
-        } else {
-            continue;
+for (let i = 0; i < LearnerSubmissions.length ; i++) {
+    const learnerResults = {}; 
+    learnerResults.id = LearnerSubmissions[i].learner_id;
+    // console.log(finalResult);
+    let isUnique = true;
+    for (let j = 0; j < finalResult.length; j++) {
+        // for loop and if statement to push unique learner id into learnerResults
+        if (finalResult[j].id === learnerResults.id) {
+            isUnique = false;
+            break;
         }
-      
     }
-    // console.log("id:", currentLearnerID, "Number of Learner Submissions:", allSubmissionsByLearner.length)
-    console.log("id:", currentLearnerID, "Learner Submissions", allSubmissionsByLearner)
+    if (isUnique) {
+          finalResult.push(learnerResults);
+    }
+
+    // Part 2 add avg grade into learnerResults
+
+
+
 }
+console.log(finalResult)
+
+
 
 
 

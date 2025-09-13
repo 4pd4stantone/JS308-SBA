@@ -148,79 +148,74 @@ console.log(finalResult)
 
 
 
+// Step 1. Group LearnerSubmissions by learner_Id
 
 
+let uniqueLearnerID = []
 
 
+// Step 2. filter out assignments that are past due date or not due yet
+let today = new Date()
+// console.log(today)
 
 
+// step 3. calculate avg
 
 
-// // Step 1. Group LearnerSubmissions by learner_Id
+//This is loop #1
+for (let i= 0; i < LearnerSubmissions.length; i++) {
+   let currentLearnerID = LearnerSubmissions[i].learner_id;
+   let allSubmissionsByLearner = [];
+   // finalResult.push(finalResult)
+   //this is loop #1 if statement.
+   if (uniqueLearnerID.indexOf(currentLearnerID) == -1) {
+       uniqueLearnerID.push(currentLearnerID);
+   } else {
+       continue;
+   }
+   // step 3. store grades into variables
+   let assignmentScore = 0;
+   let highestPossibleScore = 0;
+   //This is loop #2
+   for (let j = 0; j < LearnerSubmissions.length; j++) {
+       //This is loop #2 if statement
+       let newLearnerID = LearnerSubmissions[j].learner_id;
+      
+       if (currentLearnerID === newLearnerID) {
+           // If Learner ID i === Learner ID j => push Object into the array allSubmissionsByLearner
+            //this is loop #3
+           for (let k = 0; k < AssignmentGroup.assignments.length; k++) {
+               let assignmentIDJ = LearnerSubmissions[j].assignment_id;
+               let assignmentIDK = AssignmentGroup.assignments[k].id;
+               // Step 2. filter out assignments that are not due yet
+               let jDate = new Date(LearnerSubmissions[j].submission.submitted_at)
+               //step 3. create let kDate variable to obtain late submissions down in if statement within if statement
+               let kDate = new Date(AssignmentGroup.assignments[k].due_at)
+               if (assignmentIDJ === assignmentIDK && kDate <= today &&  jDate <= kDate) {
+                   allSubmissionsByLearner.push(LearnerSubmissions[j]);
+                   // step 3. push obtained assignment score to assignmentScore variable.
+                   let score = LearnerSubmissions[j].submission.score;
+                   
+                   console.log(score);
 
 
-// let uniqueLearnerID = []
-
-
-// // Step 2. filter out assignments that are past due date or not due yet
-// let today = new Date()
-// // console.log(today)
-
-
-// // step 3. calculate avg
-
-
-// //This is loop #1
-// for (let i= 0; i < LearnerSubmissions.length; i++) {
-//    let currentLearnerID = LearnerSubmissions[i].learner_id;
-//    let allSubmissionsByLearner = [];
-//    // finalResult.push(finalResult)
-//    //this is loop #1 if statement.
-//    if (uniqueLearnerID.indexOf(currentLearnerID) == -1) {
-//        uniqueLearnerID.push(currentLearnerID);
-//    } else {
-//        continue;
-//    }
-//    // step 3. store grades into variables
-//    let assignmentScore = 0;
-//    let highestPossibleScore = 0;
-//    //This is loop #2
-//    for (let j = 0; j < LearnerSubmissions.length; j++) {
-//        //This is loop #2 if statement
-//        let newLearnerID = LearnerSubmissions[j].learner_id;
-//       
-//        if (currentLearnerID === newLearnerID) {
-//            // If Learner ID i === Learner ID j => push Object into the array allSubmissionsByLearner
-//             //this is loop #3
-//            for (let k = 0; k < AssignmentGroup.assignments.length; k++) {
-//                let assignmentIDJ = LearnerSubmissions[j].assignment_id;
-//                let assignmentIDK = AssignmentGroup.assignments[k].id;
-//                // Step 2. filter out assignments that are not due yet
-//                let jDate = new Date(LearnerSubmissions[j].submission.submitted_at)
-//                //step 3. create let kDate variable to obtain late submissions down in if statement within if statement
-//                let kDate = new Date(AssignmentGroup.assignments[k].due_at)
-//                if (assignmentIDJ === assignmentIDK && kDate <= today &&  jDate <= kDate) {
-//                    allSubmissionsByLearner.push(LearnerSubmissions[j]);
-//                    // step 3. push obtained assignment score to assignmentScore variable.
-//                    let score = LearnerSubmissions[j].submission.score;
-//                    let
-//                    console.log(score);
-
-
-//                    // Loop #3 else if stament to catch late submissions
-//                } else if (assignmentIDJ === assignmentIDK && kDate <= today && jDate > kDate) {
-//                    // step 3. push obtained assignment score after susbtracting 10% to assignmentScore variable.
-//                    let subtractedScore = LearnerSubmissions[j].submission.score * 0.9;
-//                    allSubmissionsByLearner.push(LearnerSubmissions[j]);
-//                    console.log(subtractedScore);
-//                    } else {
-//                    continue;
-//                }
-//            }
-//        } else {
-//            continue;
-//        }
+                   // Loop #3 else if stament to catch late submissions
+               } else if (assignmentIDJ === assignmentIDK && kDate <= today && jDate > kDate) {
+                   // step 3. push obtained assignment score after susbtracting 10% to assignmentScore variable.
+                   let subtractedScore = LearnerSubmissions[j].submission.score * 0.9;
+                   allSubmissionsByLearner.push(LearnerSubmissions[j]);
+                   console.log(subtractedScore);
+                   } else {
+                   continue;
+               }
+           }
+       } else {
+           continue;
+       }
     
-//    }
-//    console.log("id:", currentLearnerID, "Learner Submissions", allSubmissionsByLearner)
+   }
+   console.log("id:", currentLearnerID, "Learner Submissions", allSubmissionsByLearner)
 //
+
+
+  }
